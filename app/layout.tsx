@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SMITH | Backend Specialist",
+  title: "Roman Ivanov | Backend Specialist",
   description: "Software Engineer specializing in distributed systems, API design, and database optimization",
 };
 

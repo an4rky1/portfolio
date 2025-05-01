@@ -59,7 +59,7 @@ export default function Home() {
               <span className="text-accent text-xl">
                 <span className="glitch">{"<>"}</span>
               </span>
-              <h1 className="text-2xl font-bold text-white">SMITH</h1>
+              <h1 className="text-2xl font-bold text-white">Roman Ivanov</h1>
               <span className="cursor"></span>
             </div>
             <nav className="flex flex-wrap gap-2">
@@ -110,7 +110,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-white mt-16 px-6 py-4">
         <div className="max-w-6xl mx-auto text-center text-sm text-gray-500">
-          <p>© 2025 SMITH. All rights reserved.</p>
+          <p>© 2025 Roman Ivanov. All rights reserved.</p>
           <p className="mt-1">
             <span className="highlight">$</span> echo "Built with Next.js & TailwindCSS"
             <span className="cursor"></span>
@@ -465,8 +465,8 @@ function ContactSection() {
               </svg>
             </div>
             <h3 className="font-bold text-white mb-2">EMAIL</h3>
-            <a href="mailto:smith@email.com" className="btn">
-              smith@email.com
+            <a href="mailto:roman.ivanov@email.com" className="btn">
+              roman.ivanov@email.com
             </a>
           </div>
 
@@ -478,8 +478,8 @@ function ContactSection() {
               </svg>
             </div>
             <h3 className="font-bold text-white mb-2">GITHUB</h3>
-            <a href="https://github.com/smith" target="_blank" rel="noopener noreferrer" className="btn">
-              github.com/smith
+            <a href="https://github.com/romanivanov" target="_blank" rel="noopener noreferrer" className="btn">
+              github.com/romanivanov
             </a>
           </div>
 
@@ -491,8 +491,8 @@ function ContactSection() {
               </svg>
             </div>
             <h3 className="font-bold text-white mb-2">LINKEDIN</h3>
-            <a href="https://linkedin.com/in/smith" target="_blank" rel="noopener noreferrer" className="btn">
-              linkedin.com/in/smith
+            <a href="https://linkedin.com/in/romanivanov" target="_blank" rel="noopener noreferrer" className="btn">
+              linkedin.com/in/romanivanov
             </a>
           </div>
         </div>
