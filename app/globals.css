@@ -20,6 +20,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -67,6 +71,45 @@ a:hover {
   background: var(--accent-dim);
 }
 
+.btn-nav {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn-nav:hover::before {
+  left: 0;
+}
+
+.btn-nav:hover {
+  color: var(--background);
+  text-decoration: none;
+}
+
+.btn-nav.active {
+  background: var(--accent);
+  color: var(--background);
+}
+
 .section-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -81,6 +124,12 @@ a:hover {
   border: 1px solid var(--border);
   background: var(--card-bg);
   padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(74, 222, 128, 0.2);
 }
 
 .card-header {
@@ -95,4 +144,179 @@ a:hover {
 
 .highlight {
   color: var(--accent);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    text-shadow: 0 0 0;
+  }
+  25% {
+    text-shadow: 2px 0 var(--accent), -2px 0 #ff00ff;
+  }
+  50% {
+    text-shadow: -2px 0 var(--accent), 2px 0 #ff00ff;
+  }
+  75% {
+    text-shadow: 2px 0 #ff00ff, -2px 0 var(--accent);
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-fade-in-delay-1 {
+  animation: fadeIn 0.6s ease 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.6s ease 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-3 {
+  animation: fadeIn 0.6s ease 0.3s forwards;
+  opacity: 0;
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+/* Scanline effect */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 51%
+  );
+  background-size: 100% 4px;
+  z-index: 9999;
+}
+
+/* Prism.js custom theme */
+pre[class*="language-"] {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-family: 'Courier New', Courier, monospace !important;
+  text-shadow: none !important;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6b7280 !important;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #9ca3af !important;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f472b6 !important;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #a78bfa !important;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #fbbf24 !important;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: var(--accent) !important;
+}
+
+.token.function,
+.token.class-name {
+  color: #60a5fa !important;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #f87171 !important;
+}
+
+/* Section styling */
+section {
+  min-height: 100vh;
+  padding: 4rem 0;
 }
