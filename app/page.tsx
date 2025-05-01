@@ -196,25 +196,41 @@ function AboutSection() {
         </div>
       </div>
 
-      {/* Quick Commands */}
+      {/* Open Source Contributions */}
       <div className="card animate-fade-in-delay-3 opacity-0">
-        <div className="card-header">QUICK_COMMANDS.SH:</div>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500">$</span>
-            <code className="flex-1"><span className="text-accent">git</span> clone https://github.com/smith</code>
+        <div className="card-header">OPEN_SOURCE.CONTRIB:</div>
+        <div className="space-y-4 text-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-accent font-bold">→</span>
+            <div>
+              <a href="#" className="text-white font-bold hover:underline">fastapi/fastapi</a>
+              <p className="text-gray-400">Added async dependency injection improvements</p>
+              <span className="text-xs text-gray-500">+234 −45 lines • 3 PRs merged</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500">$</span>
-            <code className="flex-1"><span className="text-accent">ssh</span> smith@server.com</code>
+          <div className="flex items-start gap-3">
+            <span className="text-accent font-bold">→</span>
+            <div>
+              <a href="#" className="text-white font-bold hover:underline">redis/redis</a>
+              <p className="text-gray-400">Fixed memory leak in cluster mode</p>
+              <span className="text-xs text-gray-500">+89 −12 lines • 1 PR merged</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500">$</span>
-            <code className="flex-1"><span className="text-accent">curl</span> -X POST /api/contact</code>
+          <div className="flex items-start gap-3">
+            <span className="text-accent font-bold">→</span>
+            <div>
+              <a href="#" className="text-white font-bold hover:underline">kubernetes/kubernetes</a>
+              <p className="text-gray-400">Documentation improvements for init containers</p>
+              <span className="text-xs text-gray-500">+156 lines • 2 PRs merged</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500">$</span>
-            <code className="flex-1"><span className="text-accent">docker</span> run -it smith/app</code>
+          <div className="flex items-start gap-3">
+            <span className="text-accent font-bold">→</span>
+            <div>
+              <a href="#" className="text-white font-bold hover:underline">clickhouse/clickhouse</a>
+              <p className="text-gray-400">Performance optimization for distributed queries</p>
+              <span className="text-xs text-gray-500">+312 −89 lines • 1 PR merged</span>
+            </div>
           </div>
         </div>
       </div>
