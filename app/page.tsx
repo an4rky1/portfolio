@@ -146,15 +146,53 @@ function AboutSection() {
         {/* Skills JSON */}
         <div className="card animate-fade-in-delay-2 opacity-0">
           <div className="card-header">SKILLS.JSON:</div>
-          <pre className="overflow-x-auto">
-            <code className="language-json">{`{
-  "languages": ["Python", "Go", "JavaScript", "TypeScript", "Rust", "SQL"],
-  "frameworks": ["FastAPI", "Django", "Node.js", "React", "Next.js"],
-  "databases": ["PostgreSQL", "Redis", "MongoDB", "Elasticsearch"],
-  "infrastructure": ["Docker", "Kubernetes", "AWS", "Terraform", "CI/CD"],
-  "tools": ["Git", "Linux", "Vim", "tmux"]
-}`}</code>
-          </pre>
+          <div className="space-y-3 text-sm">
+            <div>
+              <span className="highlight font-bold">"languages"</span>
+              <span className="text-gray-400">:</span>
+              <div className="flex flex-wrap gap-1 mt-1 ml-2">
+                {["Python", "Go", "JavaScript", "TypeScript", "Rust", "SQL"].map(skill => (
+                  <span key={skill} className="px-2 py-0.5 bg-white/10 rounded text-accent">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="highlight font-bold">"frameworks"</span>
+              <span className="text-gray-400">:</span>
+              <div className="flex flex-wrap gap-1 mt-1 ml-2">
+                {["FastAPI", "Django", "Node.js", "React", "Next.js"].map(skill => (
+                  <span key={skill} className="px-2 py-0.5 bg-white/10 rounded text-blue-400">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="highlight font-bold">"databases"</span>
+              <span className="text-gray-400">:</span>
+              <div className="flex flex-wrap gap-1 mt-1 ml-2">
+                {["PostgreSQL", "Redis", "MongoDB", "Elasticsearch"].map(skill => (
+                  <span key={skill} className="px-2 py-0.5 bg-white/10 rounded text-purple-400">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="highlight font-bold">"infrastructure"</span>
+              <span className="text-gray-400">:</span>
+              <div className="flex flex-wrap gap-1 mt-1 ml-2">
+                {["Docker", "Kubernetes", "AWS", "Terraform", "CI/CD"].map(skill => (
+                  <span key={skill} className="px-2 py-0.5 bg-white/10 rounded text-yellow-400">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="highlight font-bold">"tools"</span>
+              <span className="text-gray-400">:</span>
+              <div className="flex flex-wrap gap-1 mt-1 ml-2">
+                {["Git", "Linux", "Vim", "tmux"].map(skill => (
+                  <span key={skill} className="px-2 py-0.5 bg-white/10 rounded text-pink-400">{skill}</span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
