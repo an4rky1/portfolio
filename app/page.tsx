@@ -129,14 +129,9 @@ function AboutSection() {
       </h2>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Description - Expanded */}
+        {/* Description */}
         <div className="card animate-fade-in-delay-1 opacity-0">
-          <div className="card-header flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            DESCRIPTION:
-          </div>
+          <div className="card-header">DESCRIPTION:</div>
           <div className="space-y-4 text-base leading-relaxed">
             <p>
               <span className="highlight font-bold">Backend-focused software engineer</span> with 5+ years building scalable systems.
@@ -149,124 +144,65 @@ function AboutSection() {
               Specialized in <span className="highlight">distributed systems</span>, <span className="highlight">API design</span>, and <span className="highlight">database optimization</span>.
               I solve problems with minimal dependencies and maximum efficiency.
             </p>
-            <div className="border-t border-white/20 pt-4 mt-4">
-              <h4 className="font-bold text-white mb-3 flex items-center gap-2">
-                <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Core Focus:
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">▸</span>
-                  <span>High-load systems (1M+ daily users)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">▸</span>
-                  <span>Microservices architecture & API design</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">▸</span>
-                  <span>Database optimization & caching strategies</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">▸</span>
-                  <span>Cloud infrastructure & DevOps practices</span>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
 
-        {/* Skills JSON - Enhanced */}
+        {/* Skills JSON */}
         <div className="card animate-fade-in-delay-2 opacity-0">
-          <div className="card-header flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-            SKILLS.JSON:
-          </div>
-          <div className="space-y-4 text-sm">
+          <div className="card-header">SKILLS.JSON:</div>
+          <div className="space-y-3">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="highlight font-bold">"languages"</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="highlight font-bold text-xs">"languages"</span>
                 <span className="text-gray-400">:</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 ml-2">
-                {[
-                  {name: "Python", icon: "🐍"}, {name: "Go", icon: "🔷"},
-                  {name: "JavaScript", icon: "📜"}, {name: "TypeScript", icon: "📘"},
-                  {name: "Rust", icon: "⚙️"}, {name: "SQL", icon: "🗄️"}
-                ].map(skill => (
-                  <span key={skill.name} className="px-2.5 py-1 bg-white/10 rounded text-accent text-xs flex items-center gap-1">
-                    {skill.icon} {skill.name}
-                  </span>
+              <div className="flex flex-wrap gap-1.5">
+                {["Python", "Go", "JavaScript", "TypeScript", "Rust", "SQL"].map(skill => (
+                  <span key={skill} className="px-2 py-1 bg-white/10 rounded text-accent text-xs">{skill}</span>
                 ))}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="highlight font-bold">"frameworks"</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="highlight font-bold text-xs">"frameworks"</span>
                 <span className="text-gray-400">:</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 ml-2">
-                {[
-                  {name: "FastAPI", icon: "⚡"}, {name: "Django", icon: "🎯"},
-                  {name: "Node.js", icon: "📦"}, {name: "React", icon: "⚛️"},
-                  {name: "Next.js", icon: "▲"}
-                ].map(skill => (
-                  <span key={skill.name} className="px-2.5 py-1 bg-white/10 rounded text-blue-400 text-xs flex items-center gap-1">
-                    {skill.icon} {skill.name}
-                  </span>
+              <div className="flex flex-wrap gap-1.5">
+                {["FastAPI", "Django", "Node.js", "React", "Next.js"].map(skill => (
+                  <span key={skill} className="px-2 py-1 bg-white/10 rounded text-blue-400 text-xs">{skill}</span>
                 ))}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="highlight font-bold">"databases"</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="highlight font-bold text-xs">"databases"</span>
                 <span className="text-gray-400">:</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 ml-2">
-                {[
-                  {name: "PostgreSQL", icon: "🐘"}, {name: "Redis", icon: "🔴"},
-                  {name: "MongoDB", icon: "🍃"}, {name: "Elasticsearch", icon: "🔍"}
-                ].map(skill => (
-                  <span key={skill.name} className="px-2.5 py-1 bg-white/10 rounded text-purple-400 text-xs flex items-center gap-1">
-                    {skill.icon} {skill.name}
-                  </span>
+              <div className="flex flex-wrap gap-1.5">
+                {["PostgreSQL", "Redis", "MongoDB", "Elasticsearch"].map(skill => (
+                  <span key={skill} className="px-2 py-1 bg-white/10 rounded text-purple-400 text-xs">{skill}</span>
                 ))}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="highlight font-bold">"infrastructure"</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="highlight font-bold text-xs">"infrastructure"</span>
                 <span className="text-gray-400">:</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 ml-2">
-                {[
-                  {name: "Docker", icon: "🐳"}, {name: "Kubernetes", icon: "☸️"},
-                  {name: "AWS", icon: "☁️"}, {name: "Terraform", icon: "🏗️"},
-                  {name: "CI/CD", icon: "🔄"}
-                ].map(skill => (
-                  <span key={skill.name} className="px-2.5 py-1 bg-white/10 rounded text-yellow-400 text-xs flex items-center gap-1">
-                    {skill.icon} {skill.name}
-                  </span>
+              <div className="flex flex-wrap gap-1.5">
+                {["Docker", "Kubernetes", "AWS", "Terraform", "CI/CD"].map(skill => (
+                  <span key={skill} className="px-2 py-1 bg-white/10 rounded text-yellow-400 text-xs">{skill}</span>
                 ))}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="highlight font-bold">"tools"</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="highlight font-bold text-xs">"tools"</span>
                 <span className="text-gray-400">:</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 ml-2">
-                {[
-                  {name: "Git", icon: "📝"}, {name: "Linux", icon: "🐧"},
-                  {name: "Vim", icon: "📝"}, {name: "tmux", icon: "🖥️"}
-                ].map(skill => (
-                  <span key={skill.name} className="px-2.5 py-1 bg-white/10 rounded text-pink-400 text-xs flex items-center gap-1">
-                    {skill.icon} {skill.name}
-                  </span>
+              <div className="flex flex-wrap gap-1.5">
+                {["Git", "Linux", "Vim", "tmux"].map(skill => (
+                  <span key={skill} className="px-2 py-1 bg-white/10 rounded text-pink-400 text-xs">{skill}</span>
                 ))}
               </div>
             </div>
