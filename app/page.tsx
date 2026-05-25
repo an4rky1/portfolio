@@ -193,7 +193,7 @@ function AboutSection() {
       <div className="max-w-6xl mx-auto">
         <div className="space-y-8">
           <h2 className="section-title text-white">
-            <span className="highlight">$</span> cat RESUME.CS
+              <span className="highlight">$</span> cat ABOUT_ME.md
           </h2>
           
           <div className="bg-[#1a1b26] border border-[#292e42] rounded-lg p-6 overflow-x-auto">

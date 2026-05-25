@@ -280,7 +280,7 @@ export default function CodeResume() {
           <div className="text-green-400 mb-2">
             <span className="text-green-500">➜</span>{" "}
             <span className="text-blue-400">~</span>{" "}
-            <span className="text-green-400">cat</span> about_me.ts
+            <span className="text-green-400">cat</span> about_me.md
           </div>
           <div className="text-green-300 leading-5 pl-4 border-l-2 border-green-900/30 text-sm">
             {aboutLines.map((line, i) => (
@@ -320,12 +320,34 @@ export default function CodeResume() {
         )}
       </div>
 
-      {/* Bottom prompt */}
+      {/* Bottom prompt with CTA */}
       {skillsDone && (
-        <div className="px-4 py-2 border-t border-green-900/30 bg-gray-900/50 text-green-400 animate-fade-in">
-          <span className="text-green-500">➜</span>{" "}
-          <span className="text-blue-400">~</span>{" "}
-          <span className="animate-pulse text-green-400">█</span>
+        <div className="px-4 py-3 border-t border-green-900/30 bg-gray-900/50 text-green-400 animate-fade-in space-y-1.5">
+          <div>
+            <span className="text-green-500">➜</span>{" "}
+            <span className="text-blue-400">~</span>{" "}
+            <a
+              href="#contact"
+              className="text-green-400 hover:text-accent underline underline-offset-2 decoration-green-900/50 transition-colors"
+            >
+              ./contact.sh
+            </a>
+          </div>
+          <div>
+            <span className="text-green-500">➜</span>{" "}
+            <span className="text-blue-400">~</span>{" "}
+            <a
+              href="#projects"
+              className="text-green-400 hover:text-accent underline underline-offset-2 decoration-green-900/50 transition-colors"
+            >
+              open --projects
+            </a>
+          </div>
+          <div>
+            <span className="text-green-500">➜</span>{" "}
+            <span className="text-blue-400">~</span>{" "}
+            <span className="animate-pulse text-green-400">█</span>
+          </div>
         </div>
       )}
     </div>
