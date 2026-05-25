@@ -130,7 +130,7 @@ export default function Home() {
       
       <header className="fixed top-0 left-0 right-0 border-b border-white/20 bg-background/95 backdrop-blur z-40 px-4 py-3 sm:px-6 sm:py-4">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col justify-between md:flex-row md:items-center md:justify-between gap-1 sm:gap-4 min-h-[85px] md:min-h-0">
+          <div className="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
               <span className="text-accent text-xl"><span className="glitch">&lt;&gt;</span></span>
               <h1 className="text-xl font-bold sm:text-2xl text-white">Roman Ivanov</h1>
