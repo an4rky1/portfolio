@@ -278,10 +278,10 @@ export default function CodeResume() {
         </span>
       </div>
 
-      {/* Terminal Output — sequential commands, no split panels */}
-      <div className="p-3 sm:p-4 min-h-[250px] md:min-h-[450px]" style={{ textShadow: '0 0 5px rgba(74, 222, 128, 0.08)' }}>
-        {/* About section */}
-        <div>
+      {/* Split terminal panels */}
+      <div className="flex flex-col md:flex-row min-h-[250px] md:min-h-[450px]" style={{ textShadow: '0 0 5px rgba(74, 222, 128, 0.08)' }}>
+        {/* Left panel — about */}
+        <div className="flex-1 p-3 sm:p-4 border-b md:border-b-0 md:border-r border-green-900/30">
           <div className="text-green-400 mb-2">
             <span className="text-green-500">➜</span>{" "}
             <span className="text-blue-400">~</span>{" "}
@@ -301,9 +301,9 @@ export default function CodeResume() {
           </div>
         </div>
 
-        {/* Skills section — appears below about, no side panel */}
+        {/* Right panel — skills */}
         {showSkills && (
-          <div className="mt-4 animate-fade-in">
+          <div className="flex-1 p-3 sm:p-4 animate-fade-in">
             <div className="text-green-400 mb-2">
               <span className="text-green-500">➜</span>{" "}
               <span className="text-blue-400">~</span>{" "}
