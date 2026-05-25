@@ -7,6 +7,9 @@
   --accent-dim: #22c55e;
   --border: #ffffff;
   --card-bg: #121212;
+  --terminal-bg: #0d0d0d;
+  --terminal-header: #1a1a1a;
+  --terminal-text: #e5e5e5;
 }
 
 @theme inline {
@@ -16,6 +19,9 @@
   --color-accent-dim: var(--accent-dim);
   --color-border: var(--border);
   --color-card-bg: var(--card-bg);
+  --color-terminal-bg: var(--terminal-bg);
+  --color-terminal-header: var(--terminal-header);
+  --color-terminal-text: var(--terminal-text);
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
 }
@@ -175,6 +181,7 @@ a:hover {
   background: linear-gradient(135deg, transparent, rgba(74, 222, 128, 0.03), transparent);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .card:hover::before {
@@ -186,6 +193,15 @@ a:hover {
   box-shadow: 
     0 10px 40px rgba(74, 222, 128, 0.12),
     0 0 0 1px rgba(74, 222, 128, 0.1);
+}
+
+.contact-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.contact-card::after {
+  display: none;
 }
 
 .card-header {
@@ -263,6 +279,19 @@ a:hover {
   }
 }
 
+@keyframes caretBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret-blink {
+  animation: caretBlink 1s step-end infinite;
+}
+
 .animate-fade-in {
   animation: fadeIn 0.6s ease forwards;
 }
@@ -335,8 +364,9 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #6b7280 !important;
+  color: #d1d5db !important;
   font-style: italic;
+  font-weight: 500;
 }
 
 .token.punctuation {
@@ -424,4 +454,49 @@ input::placeholder, textarea::placeholder {
 
 input:hover, textarea:hover {
   border-color: rgba(74, 222, 128, 0.5) !important;
+}
+
+/* Tokyonight theme colors for code resume */
+.keyword { color: #bb9af7; }
+.type { color: #2ac3de; }
+.string { color: #9ece6a; }
+.number { color: #ff9e64; }
+.property { color: #7aa2f7; }
+.punctuation { color: #89ddff; }
+.comment { color: #565f89; font-style: italic; }
+.json-key { color: #7aa2f7; }
+.json-string { color: #9ece6a; }
+.json-number { color: #ff9e64; }
+.json-bracket { color: #89ddff; }
+
+/* Intersection Observer animations */
+.in-view {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline {
+    display: none;
+  }
+  .cursor,
+  .animate-caret-blink {
+    animation: none;
+    opacity: 1;
+  }
+  .glitch {
+    animation: none;
+    text-shadow: none;
+  }
+  [class*="animate-fade-in"] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  section,
+  .card {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

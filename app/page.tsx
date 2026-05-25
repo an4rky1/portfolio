@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import Prism from "prismjs";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-go";
-import "prismjs/components/prism-rust";
-import "prismjs/components/prism-bash";
+import { useEffect, useState, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
+import CodeResume from "@/components/CodeResume";
+import ScrollProgress from "@/components/ScrollProgress";
+import ScrollToTop from "@/components/ScrollToTop";
+import { useInView } from "@/hooks/useInView";
+import { validateContactForm, hasErrors, type ContactFormData, type ContactFormErrors } from "@/lib/contact";
 
 function VideoPreview({ videoSrc }: { videoSrc: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -67,23 +66,29 @@ export default function Home() {
   const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
-    Prism.highlightAll();
+    let ticking = false;
 
     const handleScroll = () => {
-      const sections = ["about", "projects", "resume", "contact"];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom > 150) {
-            setActiveSection(section as Section);
-            break;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const sections = ["about", "projects", "resume", "contact"];
+          for (const section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              if (rect.top <= 150 && rect.bottom > 150) {
+                setActiveSection(section as Section);
+                break;
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -109,6 +114,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-mono relative">
+      <ScrollProgress />
       <div className="scanline fixed inset-0 pointer-events-none z-50 opacity-30"></div>
       
       <header className="fixed top-0 left-0 right-0 border-b border-white/20 bg-background/95 backdrop-blur z-40 px-6 py-4">
@@ -148,9 +154,11 @@ export default function Home() {
         <ContactSection />
       </main>
 
+      <ScrollToTop />
+
       <footer className="border-t border-white/20 mt-16 px-6 py-4">
         <div className="max-w-6xl mx-auto text-center text-base text-gray-500">
-          <p>© 2025 Roman Ivanov. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Roman Ivanov. All rights reserved.</p>
           <p className="mt-1">
             <span className="highlight">$</span>echo "Built with Next.js & TailwindCSS"<span className="cursor"></span>
           </p>
@@ -161,82 +169,23 @@ export default function Home() {
 }
 
 function AboutSection() {
+  const { ref, inView } = useInView<HTMLElement>({ triggerOnce: true });
   return (
-    <section id="about" className="px-6 py-8">
+    <section 
+      id="about" 
+      ref={ref}
+      className={`px-6 py-8 transition-all duration-700 ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
-        <div className="space-y-8 animate-fade-in">
+        <div className="space-y-8">
           <h2 className="section-title text-white">
-            <span className="highlight">$</span> cat ABOUT_ME.TXT
+            <span className="highlight">$</span> cat RESUME.CS
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="card animate-fade-in-delay-1 opacity-0">
-              <div className="card-header">DESCRIPTION:</div>
-              <div className="space-y-4 text-base leading-relaxed">
-                <p>
-                  <span className="highlight font-bold">Fullstack developer</span> with 3+ years of experience. 
-                  Mainly work with PHP (Laravel, Symfony) and JavaScript (React, Next.js).
-                </p>
-                <p>
-                  Currently focused on backend development, building APIs and working with databases. 
-                  Also do some frontend when needed.
-                </p>
-                <p>
-                  Interested in <span className="highlight">clean code</span>, <span className="highlight">performance</span>, and <span className="highlight">learning new technologies</span>.
-                  Currently exploring Rust and DevOps.
-                </p>
-              </div>
-            </div>
-
-            <div className="card animate-fade-in-delay-2 opacity-0">
-              <div className="card-header">SKILLS.JSON:</div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { title: "languages", items: ["Python", "Go", "JS", "TS", "Rust", "SQL"], color: "text-accent" },
-                  { title: "frameworks", items: ["FastAPI", "Django", "Node.js", "React", "Next.js"], color: "text-blue-400" },
-                  { title: "databases", items: ["PostgreSQL", "Redis", "MongoDB", "Elastic"], color: "text-purple-400" },
-                  { title: "infrastructure", items: ["Docker", "K8s", "AWS", "Terraform", "CI/CD"], color: "text-yellow-400" }
-                ].map(cat => (
-                  <div key={cat.title} className="bg-white/5 border border-white/10 p-3">
-                    <div className="flex items-center gap-1 mb-2">
-                      <span className="highlight font-bold text-base">"{cat.title}"</span>
-                      <span className="text-gray-500">:</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {cat.items.map(skill => (
-                        <span key={skill} className={`px-2 py-0.5 bg-white/5 border border-white/10 rounded text-base ${cat.color}`}>{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-4 pt-3 border-t border-white/10">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="highlight font-bold text-base">"learning"</span>
-                  <span className="text-gray-400">:</span>
-                  <span className="animate-pulse text-accent">_</span>
-                </div>
-                <div className="space-y-2">
-                  {[
-                    { name: "Rust", progress: 60 },
-                    { name: "WebAssembly", progress: 30 },
-                    { name: "gRPC", progress: 45 }
-                  ].map(skill => (
-                    <div key={skill.name} className="flex items-center gap-3">
-                      <span className="text-accent/70 text-base w-24">{skill.name}</span>
-                      <div className="flex-1 h-1.5 bg-white/10 rounded overflow-hidden">
-                        <div 
-                          className="h-full bg-accent rounded" 
-                          style={{ width: `${skill.progress}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-gray-500 text-base w-8">{skill.progress}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="bg-[#1a1b26] border border-[#292e42] rounded-lg p-6 overflow-x-auto">
+            <CodeResume />
           </div>
         </div>
       </div>
@@ -245,170 +194,134 @@ function AboutSection() {
 }
 
 function ProjectsSection() {
+  const { ref, inView } = useInView<HTMLElement>({ triggerOnce: true });
   const projects = [
     {
-      name: "DISTRIBUTED_CACHE_SYSTEM",
-      description: "High-performance distributed caching system handling 100K+ requests/second. Built for horizontal scaling with consistent hashing.",
-      stack: ["Go", "Redis", "Docker", "Kubernetes"],
+      name: "ASCII_TERMINAL",
+      description: "Interactive Matrix-style terminal for ASCII art generation. Features image-to-ASCII conversion via Canvas API, AI image generation (Hugging Face), bento grid gallery with glitch effects, and Supabase authentication.",
+      stack: ["Next.js 16", "TypeScript", "Supabase", "Tailwind CSS 4", "Zustand", "React Query"],
       status: "completed",
-      code: `package main
-
-import (
-    "github.com/go-redis/redis/v8"
-    "context"
-)
-
-type Cache struct {
-    client *redis.Client
-    ctx    context.Context
-}
-
-func (c *Cache) Get(key string) ([]byte, error) {
-    return c.client.Get(c.ctx, key).Bytes()
-}
-
-func (c *Cache) Set(key string, value []byte, ttl time.Duration) error {
-    return c.client.Set(c.ctx, key, value, ttl).Err()
+      code: `// Terminal command handler
+async function handleCommand(cmd: string) {
+  const [action, ...args] = cmd.split(' ');
+  
+  switch (action) {
+    case 'upload':
+      return await convertImageToASCII(args[0]);
+    case 'generate':
+      return await generateFromPrompt(args.join(' '));
+    case 'save':
+      return await saveToGallery(args[0]);
+    case 'gallery':
+      return renderGallery();
+  }
 }`,
-      codeLink: "#",
+      codeLink: "https://github.com/anarky/ascii",
       demoLink: "#",
-    },
-    {
-      name: "API_GATEWAY_SERVICE",
-      description: "Custom API gateway with rate limiting, authentication, and request routing. Reduced latency by 40% compared to existing solutions.",
-      stack: ["Python", "FastAPI", "PostgreSQL", "Redis"],
-      status: "completed",
-      code: `from fastapi import FastAPI, Request, HTTPException
-from redis import asyncio as aioredis
-import time
-
-app = FastAPI()
-
-@app.middleware("http")
-async def rate_limit(request: Request, call_next):
-    redis = await aioredis.from_url("redis://localhost")
-    ip = request.client.host
-    key = f"rate_limit:{ip}"
-    
-    count = await redis.incr(key)
-    if count == 1:
-        await redis.expire(key, 60)
-    
-    if count > 100:
-        raise HTTPException(status_code=429)
-    
-    return await call_next(request)`,
-      codeLink: "#",
       docsLink: "#",
     },
     {
-      name: "ML_OPS_DASHBOARD",
-      description: "ML model monitoring and management dashboard with real-time metrics, A/B testing, and automated retraining pipelines.",
-      stack: ["Python", "FastAPI", "Vue.js", "Prometheus"],
-      status: "in-progress",
-      code: `from fastapi import FastAPI
-from prometheus_client import Counter, Histogram
-import time
-
-requests = Counter('http_requests_total', 'Total HTTP requests')
-latency = Histogram('http_request_latency_seconds', 'Request latency')
-
-app = FastAPI()
-
-@app.middleware("http")
-async def track_metrics(request: Request, call_next):
-    start = time.time()
-    response = await call_next(request)
-    requests.inc()
-    latency.observe(time.time() - start)
-    return response`,
-      codeLink: "#",
-    },
-    {
-      name: "SERVERLESS_FRAMEWORK",
-      description: "Custom serverless framework for deploying and managing containerized functions across multiple cloud providers.",
-      stack: ["Rust", "Docker", "AWS Lambda", "GCP"],
-      status: "in-progress",
-      code: `use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct FunctionConfig {
-    pub name: String,
-    pub runtime: String,
-    pub memory: u32,
-    pub timeout: u32,
-}
-
-pub struct ServerlessDeployer {
-    client: DockerClient,
-    provider: CloudProvider,
-}
-
-impl ServerlessDeployer {
-    pub async fn deploy(&self, config: FunctionConfig) -> Result<String, Error> {
-        let image = self.build_image(&config).await?;
-        self.upload_to_cloud(image, config).await
-    }
-}`,
-      codeLink: "#",
-    },
-    {
-      name: "REAL_TIME_ANALYTICS",
-      description: "Real-time data processing pipeline for analytics. Processes millions of events per day with sub-second latency.",
-      stack: ["Go", "Kafka", "ClickHouse", "Grafana"],
+      name: "NEWS_PLATFORM",
+      description: "Full-stack news aggregation platform with real-time updates, user authentication, and animated UI. Built with Supabase for backend, React Query for data fetching, and Framer Motion for smooth transitions.",
+      stack: ["Next.js 16", "TypeScript", "Supabase", "Tailwind CSS 4", "React Query", "Framer Motion", "Zustand"],
       status: "completed",
-      code: `package analytics
+      code: `// News feed with real-time subscription
+const { data: news } = useQuery({
+  queryKey: ['news'],
+  queryFn: fetchNews,
+});
 
-import (
-    "github.com/segmentio/kafka-go"
-    "github.com/ClickHouse/clickhouse-go/v2"
-)
-
-type Pipeline struct {
-    reader *kafka.Reader
-    conn   clickhouse.Conn
-}
-
-func (p *Pipeline) Process(ctx context.Context) error {
-    msg, err := p.reader.ReadMessage(ctx)
-    if err != nil {
-        return err
-    }
-    
-    event := parseEvent(msg.Value)
-    return p.conn.Insert(ctx, event)
-}`,
-      codeLink: "#",
+supabase.channel('news')
+  .on('postgres_changes', 
+    { event: 'INSERT', schema: 'public', table: 'articles' },
+    (payload) => addNewArticle(payload.new)
+  )
+  .subscribe();`,
+      codeLink: "https://github.com/anarky/news",
       demoLink: "#",
+      docsLink: "#",
     },
     {
-      name: "CLI_DEPLOYMENT_TOOL",
-      description: "Command-line deployment tool for containerized applications. Zero-downtime deployments with automatic rollback capabilities.",
-      stack: ["Rust", "Docker", "AWS"],
+      name: "PIXEL_ART_CONVERTER",
+      description: "Image-to-pixel-art converter with customizable settings and user gallery. Features JWT authentication, PostgreSQL database with Drizzle ORM, and Sharp for high-performance image processing.",
+      stack: ["Next.js 14", "TypeScript", "PostgreSQL", "Drizzle ORM", "Sharp", "Tailwind CSS", "JWT"],
       status: "completed",
-      code: `use docker_api::Docker;
-use aws_sdk::ecs::Client as ECSClient;
+      code: `// Pixel art conversion pipeline
+async function convertToPixelArt(
+  input: Buffer, 
+  pixelSize: number
+): Promise<Buffer> {
+  const image = sharp(input);
+  const { width, height } = await image.metadata();
+  
+  return image
+    .resize(Math.floor(width / pixelSize), 
+            Math.floor(height / pixelSize), 
+            { kernel: 'nearest' })
+    .toBuffer();
+}`,
+      codeLink: "https://github.com/anarky/pixel-art-converter",
+      demoLink: "#",
+      docsLink: "#",
+    },
+    {
+      name: "BLOG_PLATFORM",
+      description: "Full-stack blog platform with JWT authentication, full-text search, tags, and user profiles. Built with Feature-Sliced Design architecture for scalability, smooth scroll with Lenis, and Zod validation.",
+      stack: ["Next.js 14", "TypeScript", "PostgreSQL", "Drizzle ORM", "Framer Motion", "Lenis", "Zod", "JWT"],
+      status: "completed",
+      code: `// Post search with full-text query
+const posts = await db.select()
+  .from(postsTable)
+  .where(
+    sql\`to_tsvector('english', 
+      postsTable.title || ' ' || postsTable.content)
+      @@ to_tsquery('english', \${query})\`
+  )
+  .orderBy(desc(postsTable.createdAt))
+  .limit(20);`,
+      codeLink: "https://github.com/anarky/blog-platform",
+      demoLink: "#",
+      docsLink: "#",
+    },
+    {
+      name: "CORE_FRAMEWORK",
+      description: "Core framework and shared libraries for microservices architecture. Built with Nx monorepo, NestJS, Express, and Zod for type-safe contracts. Provides reusable infrastructure drivers and domain modules.",
+      stack: ["NestJS 11", "Nx", "TypeScript", "Express 5", "Zod", "RxJS", "Jest"],
+      status: "in-progress",
+      code: `@Injectable()
+export class CoreModule {
+  constructor(
+    private readonly config: ConfigService,
+    private readonly grpc: GrpcClient,
+    private readonly redis: RedisDriver,
+  ) {}
 
-pub struct Deployer {
-    docker: Docker,
-    ecs: ECSClient,
-}
-
-impl Deployer {
-    pub async fn deploy(&self, image: &str, service: &str) -> Result<()> {
-        self.pull_image(image).await?;
-        self.update_service(service, image).await?;
-        self.wait_for_stability(service).await?;
-        Ok(())
-    }
-    
-    async fn rollback(&self, service: &str, prev_image: &str) -> Result<()> {
-        eprintln!("Rolling back to {}", prev_image);
-        self.update_service(service, prev_image).await
-    }
+  async initialize(): Promise<void> {
+    await this.grpc.connect(this.config.grpc);
+    await this.redis.ping();
+    this.logger.log('Core services initialized');
+  }
 }`,
       codeLink: "#",
-      docsLink: "#",
+    },
+    {
+      name: "SAAS_PLATFORM",
+      description: "Microservices SaaS platform with GraphQL Federation, gRPC inter-service communication, and CQRS/DDD architecture. Includes auth, user management, API gateway, and Next.js frontend.",
+      stack: ["NestJS 11", "GraphQL Federation", "gRPC", "CQRS", "Apollo Gateway", "Bull (Redis)", "Drizzle ORM", "Next.js"],
+      status: "in-progress",
+      code: `@Module({
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+    }),
+    ClientsModule.register([
+      { name: 'AUTH_SERVICE', transport: Transport.GRPC },
+    ]),
+  ],
+})
+export class ApiGatewayModule {}`,
+      codeLink: "#",
     },
   ];
 
@@ -416,7 +329,13 @@ impl Deployer {
   const inProgressProjects = projects.filter(p => p.status === "in-progress");
 
   return (
-    <section id="projects" className="px-6 py-8">
+    <section 
+      id="projects" 
+      ref={ref}
+      className={`px-6 py-8 transition-all duration-700 ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="space-y-8 animate-fade-in">
           <h2 className="section-title text-white">
@@ -434,7 +353,10 @@ impl Deployer {
                 {completedProjects.map((project, index) => (
                   <div 
                     key={project.name} 
-                    className={`card animate-fade-in-delay-${(index % 3) + 1} opacity-0 flex flex-col h-full group relative`}
+                    className={`card transition-all duration-700 ${
+                      inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    } flex flex-col h-full group relative`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/50 group-hover:border-accent"></div>
                     <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/50 group-hover:border-accent"></div>
@@ -483,7 +405,10 @@ impl Deployer {
                 {inProgressProjects.map((project, index) => (
                   <div 
                     key={project.name} 
-                    className="card animate-fade-in-delay-1 opacity-0 flex flex-col h-full group relative border-yellow-400/30"
+                    className={`card transition-all duration-700 ${
+                      inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    } flex flex-col h-full group relative border-yellow-400/30`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400/50 via-yellow-400/20 to-transparent"></div>
                     <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-yellow-400/50 group-hover:border-yellow-400"></div>
@@ -529,8 +454,15 @@ impl Deployer {
 }
 
 function ResumeSection({ onDownloadPDF }: { onDownloadPDF: () => void }) {
+  const { ref, inView } = useInView<HTMLElement>({ triggerOnce: true });
   return (
-    <section id="resume" className="px-6 py-8">
+    <section 
+      id="resume" 
+      ref={ref}
+      className={`px-6 py-8 transition-all duration-700 ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="space-y-8 animate-fade-in">
           <h2 className="section-title text-white">
@@ -538,7 +470,7 @@ function ResumeSection({ onDownloadPDF }: { onDownloadPDF: () => void }) {
           </h2>
           
           <div className="flex flex-col gap-6">
-            <div className="card animate-fade-in-delay-1 opacity-0">
+          <div className="card contact-card animate-fade-in-delay-1 opacity-0">
               <div className="card-header">EXPERIENCE:</div>
               <div className="space-y-4">
                 {[
@@ -573,7 +505,7 @@ function ResumeSection({ onDownloadPDF }: { onDownloadPDF: () => void }) {
                     ]
                   },
                   {
-                    title: "FRONTEND JUNIOR DEVELOPER",
+                    title: "FRONTEND DEVELOPER",
                     company: "Freelance",
                     period: "2022 - 2023",
                     achievements: [
@@ -632,120 +564,216 @@ function ResumeSection({ onDownloadPDF }: { onDownloadPDF: () => void }) {
   );
 }
 
-function ContactSection() {
-  const [formSubmitted, setFormSubmitted] = useState(false);
+const SPINNER_CHARS = ["[    ]", "[ █  ]", "[  █ ]", "[   █]"];
 
-  const handleSubmit = (e: React.FormEvent) => {
+function ContactSection() {
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.1 });
+  const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [serverError, setServerError] = useState("");
+  const [spinnerFrame, setSpinnerFrame] = useState(0);
+
+  useEffect(() => {
+    if (status !== "loading") return;
+    const interval = setInterval(() => {
+      setSpinnerFrame((prev) => (prev + 1) % 4);
+    }, 200);
+    return () => clearInterval(interval);
+  }, [status]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof ContactFormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    const validationErrors = validateContactForm(formData);
+    if (hasErrors(validationErrors)) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
+    setStatus("loading");
+    setServerError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setStatus("error");
+        setServerError(data.error || "Request failed");
+      } else {
+        setStatus("success");
+      }
+    } catch {
+      setStatus("error");
+      setServerError("Network error");
+    }
+  };
+
+  const handleReset = () => {
+    setFormData({ name: "", email: "", message: "" });
+    setErrors({});
+    setStatus("idle");
+    setServerError("");
   };
 
   return (
     <section id="contact" className="px-6 py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="space-y-8 animate-fade-in">
+        <div className="space-y-8" ref={ref}>
           <h2 className="section-title text-white">
             <span className="highlight">$</span> ./CONTACT.SH
           </h2>
 
-          <div className="card animate-fade-in-delay-1 opacity-0">
-            <div className="grid md:grid-cols-3 gap-6 py-6">
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-4 border border-accent flex items-center justify-center group-hover:bg-accent/10 transition-colors">
-                  <svg className="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className={`card transition-all duration-700 ${inView ? "animate-fade-in" : "opacity-0"}`}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2">
+              <a href="mailto:roman.ivanov@email.com" className="flex items-center gap-3 p-4 border border-white/10 hover:border-accent hover:bg-accent/5 transition-all group rounded no-underline">
+                <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all rounded">
+                  <svg className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-white mb-2">EMAIL</h3>
-                <a href="mailto:roman.ivanov@email.com" className="btn">
-                  roman.ivanov@email.com
-                </a>
-              </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-accent/60 font-mono text-xs group-hover:text-accent transition-colors">[EMAIL]</div>
+                  <div className="text-foreground/70 group-hover:text-accent transition-colors font-mono text-sm truncate">roman.ivanov@email.com</div>
+                </div>
+              </a>
 
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-4 border border-accent flex items-center justify-center group-hover:bg-accent/10 transition-colors">
-                  <svg className="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+              <a href="https://github.com/romanivanov" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 border border-white/10 hover:border-accent hover:bg-accent/5 transition-all group rounded no-underline">
+                <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all rounded">
+                  <svg className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
                     <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85v2.74c0 .27.16.59.67.5C21.14 20.16 24 16.42 24 12A10 10 0 0012 2z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-white mb-2">GITHUB</h3>
-                <a href="https://github.com/romanivanov" target="_blank" rel="noopener noreferrer" className="btn">
-                  github.com/romanivanov
-                </a>
-              </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-accent/60 font-mono text-xs group-hover:text-accent transition-colors">[GITHUB]</div>
+                  <div className="text-foreground/70 group-hover:text-accent transition-colors font-mono text-sm truncate">github.com/romanivanov</div>
+                </div>
+              </a>
 
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-4 border border-accent flex items-center justify-center group-hover:bg-accent/10 transition-colors">
-                  <svg className="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+              <a href="https://linkedin.com/in/romanivanov" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 border border-white/10 hover:border-accent hover:bg-accent/5 transition-all group rounded no-underline">
+                <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all rounded">
+                  <svg className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                 </div>
-                <h3 className="font-bold text-white mb-2">LINKEDIN</h3>
-                <a href="https://linkedin.com/in/romanivanov" target="_blank" rel="noopener noreferrer" className="btn">
-                  linkedin.com/in/romanivanov
-                </a>
-              </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-accent/60 font-mono text-xs group-hover:text-accent transition-colors">[LINKEDIN]</div>
+                  <div className="text-foreground/70 group-hover:text-accent transition-colors font-mono text-sm truncate">linkedin.com/in/romanivanov</div>
+                </div>
+              </a>
+
+              <a href="https://t.me/romanivanov" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 border border-white/10 hover:border-accent hover:bg-accent/5 transition-all group rounded no-underline">
+                <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all rounded">
+                  <svg className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-accent/60 font-mono text-xs group-hover:text-accent transition-colors">[TELEGRAM]</div>
+                  <div className="text-foreground/70 group-hover:text-accent transition-colors font-mono text-sm truncate">t.me/romanivanov</div>
+                </div>
+              </a>
             </div>
           </div>
 
-          <div className="card animate-fade-in-delay-2 opacity-0">
+          <div className={`card transition-all duration-700 ${inView ? "animate-fade-in delay-200" : "opacity-0"}`}>
             <div className="card-header">SEND_MESSAGE.SH</div>
-            {formSubmitted ? (
+
+            {status === "loading" ? (
               <div className="flex flex-col items-center justify-center py-8 space-y-4">
-                <div className="text-4xl">✓</div>
-                <p className="text-accent font-mono text-center">
-                  <span className="highlight">$</span> MESSAGE_SENT_SUCCESSFULLY!
+                <span className="text-accent font-mono text-4xl tabular-nums">{SPINNER_CHARS[spinnerFrame]}</span>
+              </div>
+            ) : status === "success" ? (
+              <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                <p className="text-green-400 font-mono text-center text-lg">
+                  <span className="highlight">$</span> ./send_message.sh: success
                 </p>
-                <p className="text-gray-500 text-base text-center">
-                  Thank you for reaching out. I&apos;ll get back to you soon.
-                </p>
-                <button 
-                  type="button" 
-                  onClick={() => setFormSubmitted(false)}
-                  className="btn mt-4"
-                >
+                <button onClick={handleReset} className="btn mt-4">
                   SEND_ANOTHER
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div>
-                  <label className="block text-base font-mono uppercase tracking-wider mb-2">
+                  <label htmlFor="contact-name" className="block text-base font-mono uppercase tracking-wider mb-2">
                     <span className="highlight">$</span> NAME=
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     name="name"
-                    autoComplete="off"
-                    className="w-full bg-card-bg border border-white/30 font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none"
+                    value={formData.name}
+                    onChange={handleChange}
+                    aria-label="Name"
+                    aria-required="true"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    autoComplete="name"
+                    className={`w-full bg-card-bg border font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none ${errors.name ? "border-red-400" : "border-white/30"}`}
                     placeholder="user_name"
                   />
+                  {errors.name && <span id="name-error" className="text-red-400 text-sm font-mono mt-1 block">{errors.name}</span>}
                 </div>
                 <div>
-                  <label className="block text-base font-mono uppercase tracking-wider mb-2">
+                  <label htmlFor="contact-email" className="block text-base font-mono uppercase tracking-wider mb-2">
                     <span className="highlight">$</span> EMAIL=
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     name="email"
-                    autoComplete="off"
-                    className="w-full bg-card-bg border border-white/30 font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none"
+                    value={formData.email}
+                    onChange={handleChange}
+                    aria-label="Email"
+                    aria-required="true"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    autoComplete="email"
+                    className={`w-full bg-card-bg border font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none ${errors.email ? "border-red-400" : "border-white/30"}`}
                     placeholder="user@email.com"
                   />
+                  {errors.email && <span id="email-error" className="text-red-400 text-sm font-mono mt-1 block">{errors.email}</span>}
                 </div>
                 <div>
-                  <label className="block text-base font-mono uppercase tracking-wider mb-2">
+                  <label htmlFor="contact-message" className="block text-base font-mono uppercase tracking-wider mb-2">
                     <span className="highlight">$</span> MESSAGE=
                   </label>
                   <textarea
+                    id="contact-message"
                     name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    aria-label="Message"
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "message-error" : undefined}
                     rows={4}
                     autoComplete="off"
-                    className="w-full bg-card-bg border border-white/30 font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none resize-none"
+                    className={`w-full bg-card-bg border font-mono px-4 py-3 text-foreground placeholder-gray-600 transition-all duration-300 rounded-none resize-none ${errors.message ? "border-red-400" : "border-white/30"}`}
                     placeholder="your message here..."
                   />
+                  {errors.message && <span id="message-error" className="text-red-400 text-sm font-mono mt-1 block">{errors.message}</span>}
                 </div>
-                <button type="submit" className="btn btn-primary self-center px-8 py-3 text-base uppercase tracking-wider">
+                {status === "error" && (
+                  <p className="text-red-400 font-mono text-center">
+                    <span className="highlight">$</span> ./send_message.sh: error: {serverError}
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  className="btn btn-primary self-center px-8 py-3 text-base uppercase tracking-wider"
+                >
                   <span className="highlight">$</span> ./send_message.sh
                 </button>
               </form>
