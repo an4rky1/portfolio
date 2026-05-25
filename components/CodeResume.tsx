@@ -278,24 +278,15 @@ export default function CodeResume() {
         </span>
       </div>
 
-      {/* Tab bar — like a code editor */}
-      {(showSkills || aboutDone) && (
-        <div className="flex border-b border-green-900/30 bg-gray-900/50 text-xs">
-          <div className="px-4 py-1.5 border-r border-green-900/30 text-green-400 bg-black/40">
-            about_me.md
+      {/* Terminal Output — sequential commands, no split panels */}
+      <div className="p-3 sm:p-4 min-h-[250px] md:min-h-[450px]" style={{ textShadow: '0 0 5px rgba(74, 222, 128, 0.08)' }}>
+        {/* About section */}
+        <div>
+          <div className="text-green-400 mb-2">
+            <span className="text-green-500">➜</span>{" "}
+            <span className="text-blue-400">~</span>{" "}
+            <span className="text-green-400">cat</span> about_me.md
           </div>
-          {showSkills && (
-            <div className="px-4 py-1.5 border-r border-green-900/30 text-green-400 bg-black/40">
-              skills.json
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Split editor panels */}
-      <div className="flex flex-col md:flex-row min-h-[250px] md:min-h-[450px]" style={{ textShadow: '0 0 5px rgba(74, 222, 128, 0.08)' }}>
-        {/* Left panel — about */}
-        <div className="flex-1 p-3 sm:p-4 border-b md:border-b-0 md:border-r border-green-900/30">
           <div className="text-green-300 leading-5 pl-4 border-l-2 border-green-900/30 text-sm">
             {aboutLines.map((line, i) => (
               <div key={i} className="hover:bg-green-900/10">
@@ -310,9 +301,14 @@ export default function CodeResume() {
           </div>
         </div>
 
-        {/* Right panel — skills */}
+        {/* Skills section — appears below about, no side panel */}
         {showSkills && (
-          <div className="flex-1 p-3 sm:p-4 animate-fade-in">
+          <div className="mt-4 animate-fade-in">
+            <div className="text-green-400 mb-2">
+              <span className="text-green-500">➜</span>{" "}
+              <span className="text-blue-400">~</span>{" "}
+              <span className="text-green-400">cat</span> skills.json
+            </div>
             <div className="text-green-300 leading-6 pl-4 border-l-2 border-green-900/30 text-sm">
               {skillsLines.map((line, i) => (
                 <div key={i} className="hover:bg-green-900/10">
