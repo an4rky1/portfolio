@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roman Ivanov — Code Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0D1117;
+    font-family: 'Fira Code', monospace;
+    color: #C9D1D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px;
+  }
+
+  .card {
+    background: #161B22;
+    border: 1px solid #30363D;
+    border-radius: 12px;
+    width: 1080px;
+    max-width: 100%;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .header {
+    background: #1C2128;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #30363D;
+  }
+
+  .header .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .header .dot.red { background: #FF5F57; }
+  .header .dot.yellow { background: #FEBC2E; }
+  .header .dot.green { background: #28C840; }
+  .header .filename { color: #8B949E; font-size: 14px; margin-left: 8px; }
+
+  .content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+  }
+
+  .sidebar {
+    background: #0D1117;
+    padding: 24px;
+    border-right: 1px solid #30363D;
+  }
+
+  .photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    border: 2px solid #58A6FF;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-section { margin-bottom: 20px; }
+  .sidebar-title {
+    color: #58A6FF;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar-item {
+    font-size: 12px;
+    color: #8B949E;
+    line-height: 1.8;
+  }
+
+  .sidebar-item .label { color: #79C0FF; }
+  .sidebar-item .value { color: #A5D6FF; }
+
+  .main {
+    padding: 24px 28px;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow: hidden;
+  }
+
+  .comment { color: #6A737D; }
+  .keyword { color: #FF7B72; }
+  .type { color: #79C0FF; }
+  .string { color: #A5D6FF; }
+  .function { color: #D2A8FF; }
+  .number { color: #79C0FF; }
+  .property { color: #FFA657; }
+  .operator { color: #FF7B72; }
+  .punctuation { color: #C9D1D9; }
+  .decorator { color: #D2A8FF; }
+  .variable { color: #FFA657; }
+  .class-name { color: #7EE787; }
+  .enum-name { color: #79C0FF; }
+  .interface-name { color: #79C0FF; }
+  .green { color: #7EE787; }
+  .yellow { color: #E3B341; }
+  .cyan { color: #58A6FF; }
+
+  .line { white-space: pre; }
+  .indent-1 { padding-left: 20px; }
+  .indent-2 { padding-left: 40px; }
+  .indent-3 { padding-left: 60px; }
+  .indent-4 { padding-left: 80px; }
+
+  .section-divider {
+    border-top: 1px solid #21262D;
+    margin: 16px 0;
+  }
+
+  .status-badge {
+    display: inline-block;
+    background: #238636;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+    <span class="filename">resume.ts — Roman Ivanov</span>
+  </div>
+
+  <div class="content">
+    <div class="sidebar">
+      <!-- Replace src with your photo -->
+      <img class="photo" src="https://via.placeholder.com/180x180/161B22/58A6FF?text=RI" alt="Roman Ivanov" />
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">📍 Location</div>
+        <div class="sidebar-item">Ukraine</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">📧 Email</div>
+        <div class="sidebar-item">roman.ivanov@email.com</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">🌐 Languages</div>
+        <div class="sidebar-item">
+          <span class="label">UA</span> <span class="value">Native</span><br>
+          <span class="label">EN</span> <span class="value">Fluent</span><br>
+          <span class="label">RU</span> <span class="value">Fluent</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">🔗 Links</div>
+        <div class="sidebar-item">
+          <span class="label">GitHub</span><br>
+          <span class="value">github.com/romanivanov</span><br>
+          <span class="label">LinkedIn</span><br>
+          <span class="value">linkedin.com/in/romanivanov</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="line"><span class="comment">/// &lt;summary&gt;</span></div>
+      <div class="line"><span class="comment">/// Fullstack Developer specializing in</span></div>
+      <div class="line"><span class="comment">/// Next.js, Laravel &amp; Microservices.</span></div>
+      <div class="line"><span class="comment">/// Building scalable web applications</span></div>
+      <div class="line"><span class="comment">/// with focus on performance &amp; clean code.</span></div>
+      <div class="line"><span class="comment">/// &lt;/summary&gt;</span></div>
+      <div class="line"></div>
+
+      <div class="line"><span class="keyword">export interface</span> <span class="interface-name">Developer</span> <span class="punctuation">{</span></div>
+      <div class="line indent-1"><span class="property">name</span><span class="punctuation">:</span> <span class="type">string</span><span class="punctuation">;</span></div>
+      <div class="line indent-1"><span class="property">role</span><span class="punctuation">:</span> <span class="type">string</span><span class="punctuation">;</span></div>
+      <div class="line indent-1"><span class="property">location</span><span class="punctuation">:</span> <span class="type">string</span><span class="punctuation">;</span></div>
+      <div class="line indent-1"><span class="property">experience</span><span class="punctuation">:</span> <span class="type">Experience</span><span class="punctuation">[];</span></div>
+      <div class="line indent-1"><span class="property">education</span><span class="punctuation">:</span> <span class="type">Education</span><span class="punctuation">[];</span></div>
+      <div class="line indent-1"><span class="property">stack</span><span class="punctuation">:</span> <span class="type">TechStack</span><span class="punctuation">;</span></div>
+      <div class="line"><span class="punctuation">}</span></div>
+      <div class="line"></div>
+
+      <div class="line"><span class="keyword">const</span> <span class="variable">roman</span><span class="punctuation">:</span> <span class="type">Developer</span> <span class="operator">=</span> <span class="punctuation">{</span></div>
+      <div class="line indent-1"><span class="property">name</span><span class="punctuation">:</span> <span class="string">"Roman Ivanov"</span><span class="punctuation">,</span></div>
+      <div class="line indent-1"><span class="property">role</span><span class="punctuation">:</span> <span class="string">"Fullstack Developer"</span><span class="punctuation">,</span></div>
+      <div class="line indent-1"><span class="property">location</span><span class="punctuation">:</span> <span class="string">"Ukraine"</span><span class="punctuation">,</span></div>
+      <div class="line"></div>
+
+      <div class="section-divider"></div>
+
+      <div class="line indent-1"><span class="property">experience</span><span class="punctuation">: [</span></div>
+      <div class="line indent-2"><span class="punctuation">{</span></div>
+      <div class="line indent-3"><span class="property">role</span><span class="punctuation">:</span> <span class="string">"Next.js Developer"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">company</span><span class="punctuation">:</span> <span class="string">"Nimbus Systems"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">period</span><span class="punctuation">:</span> <span class="string">"2024–2025"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">stack</span><span class="punctuation">: [</span><span class="string">"React"</span><span class="punctuation">,</span> <span class="string">"TypeScript"</span><span class="punctuation">,</span> <span class="string">"SSR"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="punctuation">},</span></div>
+      <div class="line indent-2"><span class="punctuation">{</span></div>
+      <div class="line indent-3"><span class="property">role</span><span class="punctuation">:</span> <span class="string">"Laravel Fullstack Dev"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">company</span><span class="punctuation">:</span> <span class="string">"CipherTech"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">period</span><span class="punctuation">:</span> <span class="string">"2024–2025"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">stack</span><span class="punctuation">: [</span><span class="string">"Laravel"</span><span class="punctuation">,</span> <span class="string">"Vue.js"</span><span class="punctuation">,</span> <span class="string">"REST"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="punctuation">},</span></div>
+      <div class="line indent-2"><span class="punctuation">{</span></div>
+      <div class="line indent-3"><span class="property">role</span><span class="punctuation">:</span> <span class="string">"Symfony Fullstack Dev"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">company</span><span class="punctuation">:</span> <span class="string">"Vertex Labs"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">period</span><span class="punctuation">:</span> <span class="string">"2023–2024"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">stack</span><span class="punctuation">: [</span><span class="string">"Symfony"</span><span class="punctuation">,</span> <span class="string">"PostgreSQL"</span><span class="punctuation">,</span> <span class="string">"Redis"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="punctuation">},</span></div>
+      <div class="line indent-1"><span class="punctuation">],</span></div>
+      <div class="line"></div>
+
+      <div class="section-divider"></div>
+
+      <div class="line indent-1"><span class="property">education</span><span class="punctuation">: [</span></div>
+      <div class="line indent-2"><span class="punctuation">{</span></div>
+      <div class="line indent-3"><span class="property">degree</span><span class="punctuation">:</span> <span class="string">"Computer Science"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">school</span><span class="punctuation">:</span> <span class="string">"Donbas State Eng. Academy"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">period</span><span class="punctuation">:</span> <span class="string">"2018–2023"</span><span class="punctuation">,</span></div>
+      <div class="line indent-2"><span class="punctuation">},</span></div>
+      <div class="line indent-2"><span class="punctuation">{</span></div>
+      <div class="line indent-3"><span class="property">degree</span><span class="punctuation">:</span> <span class="string">"Applied Mathematics"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">school</span><span class="punctuation">:</span> <span class="string">"Horlivka Technical College"</span><span class="punctuation">,</span></div>
+      <div class="line indent-3"><span class="property">period</span><span class="punctuation">:</span> <span class="string">"2011–2014"</span><span class="punctuation">,</span></div>
+      <div class="line indent-2"><span class="punctuation">},</span></div>
+      <div class="line indent-1"><span class="punctuation">],</span></div>
+      <div class="line"></div>
+
+      <div class="section-divider"></div>
+
+      <div class="line indent-1"><span class="property">stack</span><span class="punctuation">: {</span></div>
+      <div class="line indent-2"><span class="property">frontend</span><span class="punctuation">: [</span><span class="string">"TS"</span><span class="punctuation">,</span> <span class="string">"Next.js"</span><span class="punctuation">,</span> <span class="string">"React"</span><span class="punctuation">,</span> <span class="string">"Vue"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="property">backend</span><span class="punctuation">: [</span><span class="string">"Laravel"</span><span class="punctuation">,</span> <span class="string">"Symfony"</span><span class="punctuation">,</span> <span class="string">"NestJS"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="property">database</span><span class="punctuation">: [</span><span class="string">"PostgreSQL"</span><span class="punctuation">,</span> <span class="string">"Redis"</span><span class="punctuation">],</span></div>
+      <div class="line indent-2"><span class="property">tools</span><span class="punctuation">: [</span><span class="string">"Docker"</span><span class="punctuation">,</span> <span class="string">"GraphQL"</span><span class="punctuation">,</span> <span class="string">"Git"</span><span class="punctuation">],</span></div>
+      <div class="line indent-1"><span class="punctuation">},</span></div>
+      <div class="line"><span class="punctuation">};</span></div>
+      <div class="line"></div>
+      <div class="line"><span class="keyword">export default</span> <span class="variable">roman</span><span class="punctuation">;</span></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

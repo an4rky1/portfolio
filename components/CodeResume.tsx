@@ -274,9 +274,9 @@ export default function CodeResume() {
       </div>
 
       {/* Split Terminal */}
-      <div className="flex min-h-[450px]">
+      <div className="flex flex-col md:flex-row min-h-[250px] md:min-h-[450px]">
         {/* About Panel */}
-        <div className={`flex-1 p-4 border-r border-green-900/30 transition-all duration-500 ${showSkills ? "w-1/2" : "w-full"}`}>
+          <div className={`flex-1 p-3 sm:p-4 border-b md:border-b-0 md:border-r border-green-900/30 transition-all duration-500 ${showSkills ? "w-1/2" : "w-full"}`}>
           <div className="text-green-400 mb-2">
             <span className="text-green-500">➜</span>{" "}
             <span className="text-blue-400">~</span>{" "}
@@ -298,7 +298,7 @@ export default function CodeResume() {
 
         {/* Skills Panel */}
         {showSkills && (
-          <div className="w-1/2 p-4 animate-fade-in">
+          <div className="w-full md:w-1/2 p-3 sm:p-4 animate-fade-in">
             <div className="text-green-400 mb-2">
               <span className="text-green-500">➜</span>{" "}
               <span className="text-blue-400">~</span>{" "}

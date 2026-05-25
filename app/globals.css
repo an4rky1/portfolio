@@ -488,6 +488,40 @@ input:hover, textarea:hover {
   transform: translateY(0) !important;
 }
 
+/* === Responsive: Mobile (< 640px) === */
+@media (max-width: 639px) {
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-nav {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card-header {
+    margin: -1rem -1rem 1rem -1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Tablet+ (> 639px) — возвращаем десктопные значения */
+@media (min-width: 640px) {
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scanline {
     display: none;
