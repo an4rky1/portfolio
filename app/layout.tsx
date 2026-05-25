@@ -80,6 +80,7 @@ export const metadata: Metadata = {
       "Fullstack developer portfolio — React, Next.js, TypeScript, Python, Go. Backend-heavy fullstack projects and API design.",
     images: [ogImage],
   },
+  manifest: "/manifest.json",
   robots: {
     index: true,
     follow: true,

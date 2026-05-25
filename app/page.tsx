@@ -2,7 +2,18 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
-import CodeResume from "@/components/CodeResume";
+const CodeResume = dynamic(() => import("@/components/CodeResume"), {
+  loading: () => (
+    <div className="bg-black border border-green-900/50 rounded-lg p-4 animate-pulse">
+      <div className="flex items-center gap-1.5 mb-3">
+        <div className="w-3 h-3 rounded-full bg-red-500/60"></div>
+        <div className="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+        <div className="w-3 h-3 rounded-full bg-green-500/60"></div>
+      </div>
+      <div className="text-green-500/40 text-sm">Loading terminal...</div>
+    </div>
+  ),
+});
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useInView } from "@/hooks/useInView";
@@ -131,6 +142,7 @@ export default function Home() {
                   key={section}
                   onClick={() => scrollToSection(section)}
                   className={`btn-nav ${activeSection === section ? "active" : ""}`}
+                  aria-current={activeSection === section ? "page" : undefined}
                 >
                   [{section.toUpperCase()}]
                 </button>
@@ -375,15 +387,15 @@ export class ApiGatewayModule {}`,
                     </div>
                     
                     <div className="grid grid-cols-2 gap-2 mt-auto">
-                      <a href={project.codeLink} className="btn btn-primary text-center">
+                      <a href={project.codeLink} className="btn btn-primary text-center" aria-label={`Source code of ${project.name}`}>
                         <span className="relative z-10">CODE</span>
                       </a>
                       {project.demoLink ? (
-                        <a href={project.demoLink} className="btn btn-secondary text-center group">
+                        <a href={project.demoLink} className="btn btn-secondary text-center group" aria-label={`Demo of ${project.name}`}>
                           <span className="relative z-10 group-hover:text-accent transition-colors">DEMO <span className="text-accent text-base group-hover:text-background">↗</span></span>
                         </a>
                       ) : project.docsLink ? (
-                        <a href={project.docsLink} className="btn btn-secondary text-center group">
+                        <a href={project.docsLink} className="btn btn-secondary text-center group" aria-label={`Documentation of ${project.name}`}>
                           <span className="relative z-10 group-hover:text-accent transition-colors">DOCS</span>
                         </a>
                       ) : null}
