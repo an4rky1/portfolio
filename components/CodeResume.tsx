@@ -267,15 +267,14 @@ export default function CodeResume() {
       className="bg-black border border-green-900/50 overflow-hidden font-mono text-sm"
       style={{ boxShadow: 'inset 0 0 40px rgba(0,0,0,0.6), 0 0 6px rgba(74, 222, 128, 0.08)' }}
     >
-      {/* Terminal header — retro style */}
-      <div className="flex items-center bg-gray-900/80 border-b border-green-900/30 px-3 py-1.5">
-        <span className="text-green-500/70 text-xs tracking-wider">
-          <span className="text-green-600">┌─[</span>
-          <span className="text-green-400 font-bold">ROMAN@PORTFOLIO</span>
-          <span className="text-green-600">]─[</span>
-          <span className="text-green-400 font-bold">~/src</span>
-          <span className="text-green-600">]─┐</span>
-        </span>
+      {/* Terminal header */}
+      <div className="flex items-center bg-gray-900 border-b border-green-900/30 px-3 py-2">
+        <div className="flex gap-1.5 mr-3">
+          <div className="w-3 h-3 rounded-full bg-red-500/60"></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+          <div className="w-3 h-3 rounded-full bg-green-500/60"></div>
+        </div>
+        <span className="text-green-500/60 text-xs">roman@portfolio: ~/src</span>
       </div>
 
       {/* Split terminal panels */}
