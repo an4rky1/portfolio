@@ -98,7 +98,7 @@ function highlightTSLine(line: string) {
   }
 
   const parts: React.ReactNode[] = [];
-  let remaining = line;
+  const remaining = line;
   let key = 0;
 
   const keywords = /\b(interface|const|export|default|type|import|from|string|number|boolean|void|null|undefined|true|false|enum|new|async|await)\b/g;
@@ -160,7 +160,7 @@ function highlightTSLine(line: string) {
 
 function highlightJSONLine(line: string) {
   const parts: React.ReactNode[] = [];
-  let remaining = line;
+  const remaining = line;
   let key = 0;
 
   const keys = /"([^"]+)"(?=\s*:)/g;
@@ -220,12 +220,7 @@ export default function CodeResume() {
   const [skillsLines, setSkillsLines] = useState<string[]>([]);
   const [aboutDone, setAboutDone] = useState(false);
   const [skillsDone, setSkillsDone] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!inView) return;

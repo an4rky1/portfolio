@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, beforeEach } from "vitest";
+import { render } from "@testing-library/react";
 import ScrollProgress from "@/components/ScrollProgress";
 
 describe("ScrollProgress", () => {

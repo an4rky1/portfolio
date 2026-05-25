@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 const CodeResume = dynamic(() => import("@/components/CodeResume"), {
   loading: () => (
@@ -74,7 +74,7 @@ type Section = "about" | "projects" | "resume" | "contact";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("about");
-  const [isPrinting, setIsPrinting] = useState(false);
+  const [isPrinting] = useState(false);
 
   useEffect(() => {
     let ticking = false;
@@ -172,7 +172,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto text-center text-base text-gray-500">
           <p>© {new Date().getFullYear()} Roman Ivanov. All rights reserved.</p>
           <p className="mt-1">
-            <span className="highlight">$</span>echo "Built with Next.js & TailwindCSS"<span className="cursor"></span>
+            <span className="highlight">$</span>echo &ldquo;Built with Next.js &amp; TailwindCSS&rdquo;<span className="cursor"></span>
           </p>
         </div>
       </footer>

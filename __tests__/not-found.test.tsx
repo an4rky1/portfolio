@@ -3,7 +3,8 @@ import { render, screen, act } from "@testing-library/react";
 import NotFound from "@/app/not-found";
 
 vi.mock("next/link", () => ({
-  default: ({ children, href, ...props }: any) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  default: ({ children, href, ...props }: Record<string, any>) => (
     <a href={href} {...props}>
       {children}
     </a>
@@ -14,12 +15,6 @@ describe("404 Page", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
-
-  function advanceAllTimers() {
-    act(() => {
-      vi.advanceTimersByTime(100);
-    });
-  }
 
   it("renders 404 text", () => {
     render(<NotFound />);
