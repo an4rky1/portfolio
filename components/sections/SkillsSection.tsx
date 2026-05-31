@@ -4,8 +4,8 @@ import { useInView } from "@/hooks/useInView";
 
 const skillCategories = [
   {
-    title: "Languages",
-    icon: "{ }",
+    title: "LANGUAGES",
+    icon: "01",
     skills: [
       { name: "Python", level: "Expert" },
       { name: "TypeScript", level: "Advanced" },
@@ -15,8 +15,8 @@ const skillCategories = [
     ],
   },
   {
-    title: "Backend",
-    icon: "< />",
+    title: "BACKEND",
+    icon: "02",
     skills: [
       { name: "FastAPI", level: "Expert" },
       { name: "Django", level: "Advanced" },
@@ -26,40 +26,40 @@ const skillCategories = [
     ],
   },
   {
-    title: "Frontend",
-    icon: "[ ]",
+    title: "FRONTEND",
+    icon: "03",
     skills: [
       { name: "React", level: "Advanced" },
       { name: "Next.js", level: "Advanced" },
       { name: "Vue.js", level: "Intermediate" },
-      { name: "Tailwind CSS", level: "Expert" },
+      { name: "Tailwind", level: "Expert" },
     ],
   },
   {
-    title: "Databases",
-    icon: "( )",
+    title: "DATABASES",
+    icon: "04",
     skills: [
       { name: "PostgreSQL", level: "Expert" },
       { name: "MySQL", level: "Advanced" },
       { name: "Redis", level: "Advanced" },
       { name: "MongoDB", level: "Intermediate" },
-      { name: "Elasticsearch", level: "Intermediate" },
+      { name: "Elastic", level: "Intermediate" },
     ],
   },
   {
-    title: "DevOps",
-    icon: "=>",
+    title: "DEVOPS",
+    icon: "05",
     skills: [
       { name: "Docker", level: "Advanced" },
-      { name: "Kubernetes", level: "Intermediate" },
+      { name: "K8s", level: "Intermediate" },
       { name: "AWS", level: "Intermediate" },
       { name: "CI/CD", level: "Advanced" },
       { name: "Terraform", level: "Learning" },
     ],
   },
   {
-    title: "Tools",
-    icon: "##",
+    title: "TOOLS",
+    icon: "06",
     skills: [
       { name: "Git", level: "Expert" },
       { name: "Linux", level: "Advanced" },
@@ -69,11 +69,11 @@ const skillCategories = [
   },
 ];
 
-const levelColors: Record<string, string> = {
-  Expert: "bg-accent text-background",
-  Advanced: "bg-accent/20 text-accent border border-accent/30",
-  Intermediate: "bg-foreground/10 text-foreground/70 border border-foreground/20",
-  Learning: "bg-foreground/5 text-foreground/50 border border-foreground/10",
+const levelStyles: Record<string, string> = {
+  Expert: "bg-accent text-background border-accent",
+  Advanced: "bg-transparent text-accent border-accent",
+  Intermediate: "bg-transparent text-foreground border-foreground",
+  Learning: "bg-transparent text-muted border-muted",
 };
 
 export default function SkillsSection() {
@@ -83,30 +83,30 @@ export default function SkillsSection() {
     <section
       id="skills"
       ref={ref}
-      className={`px-4 py-12 sm:px-6 sm:py-16 transition-all duration-700 ${
+      className={`px-4 py-16 sm:px-6 sm:py-20 transition-all duration-500 ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="section-title text-foreground mb-10">
-          <span className="text-accent">//</span> Skills & Technologies
+        <h2 className="section-title text-foreground">
+          <span className="text-accent">{"//"}</span> SKILLS
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category, idx) => (
             <div
               key={category.title}
-              className="group card hover:border-accent/50 transition-all duration-300"
+              className="card group"
               style={{ animationDelay: `${idx * 100}ms` }}
             >
               {/* Category header */}
-              <div className="flex items-center gap-3 mb-4 pb-3 border-b border-foreground/10">
-                <span className="text-accent font-mono text-lg">
-                  {category.icon}
-                </span>
-                <h3 className="text-foreground font-semibold text-lg">
+              <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-border">
+                <h3 className="text-foreground font-bold text-sm tracking-wider">
                   {category.title}
                 </h3>
+                <span className="text-accent font-mono text-2xl font-black">
+                  {category.icon}
+                </span>
               </div>
 
               {/* Skills list */}
@@ -114,7 +114,7 @@ export default function SkillsSection() {
                 {category.skills.map((skill) => (
                   <span
                     key={skill.name}
-                    className={`px-3 py-1.5 text-sm font-medium rounded transition-all duration-200 ${levelColors[skill.level]}`}
+                    className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wide border-2 transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[2px_2px_0_currentColor] ${levelStyles[skill.level]}`}
                     title={skill.level}
                   >
                     {skill.name}
@@ -125,23 +125,25 @@ export default function SkillsSection() {
           ))}
         </div>
 
-        {/* Legend */}
-        <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded bg-accent" />
-            <span className="text-foreground/60">Expert</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded bg-accent/20 border border-accent/30" />
-            <span className="text-foreground/60">Advanced</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded bg-foreground/10 border border-foreground/20" />
-            <span className="text-foreground/60">Intermediate</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded bg-foreground/5 border border-foreground/10" />
-            <span className="text-foreground/60">Learning</span>
+        {/* Legend - Brutalist */}
+        <div className="mt-10 pt-6 border-t-3 border-border">
+          <div className="flex flex-wrap justify-center gap-6 text-xs font-mono uppercase tracking-wider">
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 bg-accent border-2 border-accent" />
+              <span className="text-muted">Expert</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 bg-transparent border-2 border-accent" />
+              <span className="text-muted">Advanced</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 bg-transparent border-2 border-foreground" />
+              <span className="text-muted">Intermediate</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 bg-transparent border-2 border-muted" />
+              <span className="text-muted">Learning</span>
+            </div>
           </div>
         </div>
       </div>

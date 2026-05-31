@@ -40,23 +40,20 @@ export default function ProjectsSection() {
     <section 
       id="projects" 
       ref={ref}
-      className={`px-4 py-12 sm:px-6 sm:py-16 transition-all duration-700 ${
+      className={`px-4 py-16 sm:px-6 sm:py-20 transition-all duration-500 ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="section-title text-foreground mb-10">
-          <span className="text-accent">//</span> Featured Projects
+        <h2 className="section-title text-foreground">
+          <span className="text-accent">{"//"}</span> PROJECTS
         </h2>
 
         {completedVisible.length > 0 && (
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 bg-accent rounded-full" />
-              <h3 className="text-lg font-semibold text-foreground">
-                Completed
-              </h3>
-              <span className="text-muted text-sm">({completedProjects.length})</span>
+            <div className="flex items-center gap-3 mb-8">
+              <span className="marker">COMPLETED</span>
+              <span className="text-muted text-sm font-mono">({completedProjects.length})</span>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -71,30 +68,37 @@ export default function ProjectsSection() {
                     } ${
                       isExtra && !animatingIds.has(project.name) ? "opacity-100 translate-y-0" : ""
                     } ${
-                      inView && !showAll && !isExtra ? "transition-all duration-700" : ""
+                      inView && !showAll && !isExtra ? "transition-all duration-500" : ""
                     }`}
                     style={
                       isExtra && animatingIds.has(project.name)
-                        ? { animation: `slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`, animationDelay: `${extraIndex * 200}ms`, opacity: 0 }
+                        ? { animation: `slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`, animationDelay: `${extraIndex * 150}ms`, opacity: 0 }
                         : !isExtra ? { transitionDelay: `${index * 100}ms` }
                         : undefined
                     }
                   >
-                    <h4 className="font-semibold text-foreground text-lg mb-3">
+                    {/* Project number */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-accent font-mono text-3xl font-black">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    <h4 className="font-bold text-foreground text-lg mb-4 uppercase tracking-wide">
                       {project.name}
                     </h4>
                     
                     <VideoPreview videoSrc={project.video} />
                     
-                    <p className="text-foreground/70 text-sm mb-4 flex-grow leading-relaxed">
+                    <p className="text-muted text-sm mb-6 flex-grow leading-relaxed font-mono">
                       {project.description}
                     </p>
                     
-                    <div className="flex flex-wrap gap-2 mb-5">
+                    <div className="flex flex-wrap gap-2 mb-6">
                       {project.stack.map(tech => (
                         <span 
                           key={tech} 
-                          className="px-2.5 py-1 text-xs font-medium bg-accent/10 text-accent rounded border border-accent/20"
+                          className="tag text-accent border-accent"
                         >
                           {tech}
                         </span>
@@ -106,30 +110,30 @@ export default function ProjectsSection() {
                         href={project.codeLink} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="btn btn-primary text-center text-sm"
+                        className="btn btn-primary text-center text-xs"
                         aria-label={`Source code of ${project.name}`}
                       >
-                        View Code
+                        [CODE]
                       </a>
                       {project.demoLink ? (
                         <a 
                           href={project.demoLink} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="btn btn-secondary text-center text-sm"
+                          className="btn btn-secondary text-center text-xs"
                           aria-label={`Demo of ${project.name}`}
                         >
-                          Live Demo
+                          [DEMO]
                         </a>
                       ) : project.docsLink ? (
                         <a 
                           href={project.docsLink} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="btn btn-secondary text-center text-sm"
+                          className="btn btn-secondary text-center text-xs"
                           aria-label={`Documentation of ${project.name}`}
                         >
-                          Docs
+                          [DOCS]
                         </a>
                       ) : null}
                     </div>
@@ -141,61 +145,60 @@ export default function ProjectsSection() {
         )}
 
         {completedProjects.length > INITIAL_COUNT && (
-          <div className="flex justify-center pt-8">
+          <div className="flex justify-center pt-10">
             <button
               onClick={handleToggleShowAll}
-              className="btn btn-secondary px-8"
+              className="btn btn-secondary"
             >
-              {showAll ? "Show Less" : `Show More (${completedProjects.length - INITIAL_COUNT})`}
+              {showAll ? "[SHOW_LESS]" : `[SHOW_MORE] +${completedProjects.length - INITIAL_COUNT}`}
             </button>
           </div>
         )}
 
         {inProgressProjects.length > 0 && (
-          <div className="mt-12 space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-              <h3 className="text-lg font-semibold text-foreground">
-                In Progress
-              </h3>
-              <span className="text-muted text-sm">({inProgressProjects.length})</span>
+          <div className="mt-16 space-y-6">
+            <div className="flex items-center gap-3 mb-8">
+              <span className="bg-yellow-400 text-background px-2 py-1 text-xs font-black uppercase tracking-wide">
+                IN_PROGRESS
+              </span>
+              <span className="text-muted text-sm font-mono">({inProgressProjects.length})</span>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               {inProgressWithVideo.map((project, index) => (
                 <div 
                   key={project.name} 
-                  className={`card transition-all duration-700 ${
+                  className={`card transition-all duration-500 ${
                     inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                  } flex flex-col h-full group border-yellow-400/30 hover:border-yellow-400/50`}
+                  } flex flex-col h-full group border-yellow-400/50 hover:border-yellow-400`}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <h4 className="font-semibold text-foreground text-lg">
+                  <div className="flex items-center gap-2 mb-4">
+                    <h4 className="font-bold text-foreground text-lg uppercase tracking-wide">
                       {project.name}
                     </h4>
-                    <span className="px-2 py-0.5 text-xs bg-yellow-400/10 text-yellow-400 rounded border border-yellow-400/20">
+                    <span className="bg-yellow-400/20 text-yellow-400 px-2 py-0.5 text-xs font-bold border-2 border-yellow-400/50">
                       WIP
                     </span>
                   </div>
                   
-                  <div className="aspect-video bg-gradient-to-br from-card-bg to-background border border-border rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+                  <div className="aspect-video bg-card-bg border-3 border-border mb-4 flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-grid-pattern opacity-50" />
                     <div className="text-center z-10">
-                      <div className="text-3xl mb-2">{"</>"}</div>
-                      <span className="text-muted text-sm">Work in Progress</span>
+                      <div className="text-4xl font-black text-yellow-400/50 mb-2">{"{ }"}</div>
+                      <span className="text-muted text-xs font-mono uppercase tracking-wider">Building...</span>
                     </div>
                   </div>
                   
-                  <p className="text-foreground/60 text-sm mb-4 flex-grow leading-relaxed">
+                  <p className="text-muted text-sm mb-6 flex-grow leading-relaxed font-mono">
                     {project.description}
                   </p>
                   
-                  <div className="flex flex-wrap gap-2 mb-5">
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {project.stack.map(tech => (
                       <span 
                         key={tech} 
-                        className="px-2.5 py-1 text-xs font-medium bg-yellow-400/10 text-yellow-400/80 rounded border border-yellow-400/20"
+                        className="tag text-yellow-400 border-yellow-400/50"
                       >
                         {tech}
                       </span>
@@ -207,9 +210,9 @@ export default function ProjectsSection() {
                       href={project.codeLink} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="btn btn-secondary w-full text-center text-sm text-yellow-400/70 hover:text-yellow-400 border-yellow-400/30 hover:border-yellow-400"
+                      className="btn btn-secondary w-full text-center text-xs text-yellow-400 border-yellow-400/50 hover:border-yellow-400 hover:bg-yellow-400 hover:text-background"
                     >
-                      View Code
+                      [VIEW_CODE]
                     </a>
                   </div>
                 </div>
