@@ -5,6 +5,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroTerminal from "@/components/sections/HeroTerminal";
 import AboutSection from "@/components/sections/AboutSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import ResumeSection from "@/components/sections/ResumeSection";
@@ -89,9 +90,8 @@ export default function Home() {
 
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
 
-      <div className="h-20"></div>
-
       <main>
+        <HeroTerminal />
         <AboutSection />
         <ProjectsSection />
         <ResumeSection onDownloadPDF={downloadPDF} />
