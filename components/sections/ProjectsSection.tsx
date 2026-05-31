@@ -40,152 +40,183 @@ export default function ProjectsSection() {
     <section 
       id="projects" 
       ref={ref}
-      className={`px-4 py-6 sm:px-6 sm:py-8 transition-all duration-700 ${
+      className={`px-4 py-12 sm:px-6 sm:py-16 transition-all duration-700 ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <div className="space-y-8 animate-fade-in">
-          <h2 className="section-title text-white">
-            <span className="highlight">$</span> ls -la PROJECTS.DIR/
-          </h2>
+        <h2 className="section-title text-foreground mb-10">
+          <span className="text-accent">//</span> Featured Projects
+        </h2>
 
-          {completedVisible.length > 0 && (
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-2 h-2 bg-accent rounded-full"></div>
-                <h3 className="text-lg font-bold text-accent font-mono">COMPLETED</h3>
-                <span className="text-gray-500 text-base">({completedProjects.length})</span>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-                {completedVisible.map((project, index) => {
-                  const isExtra = index >= INITIAL_COUNT;
-                  const extraIndex = index - INITIAL_COUNT;
-                  return (
-                    <div 
-                      key={project.name} 
-                      className={`card flex flex-col h-full group relative ${
-                        inView && !isExtra ? "opacity-100 translate-y-0" : ""
-                      } ${
-                        isExtra && !animatingIds.has(project.name) ? "opacity-100 translate-y-0" : ""
-                      } ${
-                        inView && !showAll && !isExtra ? "transition-all duration-700" : ""
-                      }`}
-                      style={
-                        isExtra && animatingIds.has(project.name)
-                          ? { animation: `slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`, animationDelay: `${extraIndex * 200}ms`, opacity: 0 }
-                          : !isExtra ? { transitionDelay: `${index * 100}ms` }
-                          : undefined
-                      }
-                    >
-                      <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/50 group-hover:border-accent"></div>
-                      <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/50 group-hover:border-accent"></div>
-                      <div className="card-header">{project.name}</div>
-                      
-                      <VideoPreview videoSrc={project.video} />
-                      
-                      <p className="text-base mb-4 flex-grow">{project.description}</p>
-                      
-                      <div className="flex flex-wrap gap-1.5 mb-5">
-                        {project.stack.map(tech => (
-                          <span key={tech} className="relative border border-white/20 bg-transparent px-2 py-0.5 text-xs sm:text-sm lg:text-base text-accent font-mono uppercase tracking-wider hover:bg-accent/20 transition-colors">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-2 mt-auto">
-                        <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary text-center" aria-label={`Source code of ${project.name}`}>
-                          <span className="relative z-10">CODE</span>
-                        </a>
-                        {project.demoLink ? (
-                          <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-center group" aria-label={`Demo of ${project.name}`}>
-                            <span className="relative z-10 group-hover:text-accent transition-colors">DEMO <span className="text-accent text-base group-hover:text-background">↗</span></span>
-                          </a>
-                        ) : project.docsLink ? (
-                          <a href={project.docsLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-center group" aria-label={`Documentation of ${project.name}`}>
-                            <span className="relative z-10 group-hover:text-accent transition-colors">DOCS</span>
-                          </a>
-                        ) : null}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+        {completedVisible.length > 0 && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 bg-accent rounded-full" />
+              <h3 className="text-lg font-semibold text-foreground">
+                Completed
+              </h3>
+              <span className="text-muted text-sm">({completedProjects.length})</span>
             </div>
-          )}
 
-          {completedProjects.length > INITIAL_COUNT && (
-            <div className="flex justify-center pt-2">
-              <button
-                onClick={handleToggleShowAll}
-                className="btn btn-secondary px-8 py-3 text-base uppercase tracking-wider group"
-              >
-                <span className="relative z-10 group-hover:text-accent transition-colors">
-                  {showAll ? (
-                    <>SHOW_LESS <span className="text-accent group-hover:text-background">↑</span></>
-                  ) : (
-                    <>SHOW_MORE ({completedProjects.length - INITIAL_COUNT}) <span className="text-accent group-hover:text-background">↓</span></>
-                  )}
-                </span>
-              </button>
-            </div>
-          )}
-
-          {inProgressProjects.length > 0 && (
-            <div>
-              <div className="flex items-center gap-3 mb-4 mt-8">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <h3 className="text-lg font-bold text-yellow-400 font-mono">IN_PROGRESS</h3>
-                <span className="text-gray-500 text-base">({inProgressProjects.length})</span>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-                {inProgressWithVideo.map((project, index) => (
+            <div className="grid md:grid-cols-2 gap-6">
+              {completedVisible.map((project, index) => {
+                const isExtra = index >= INITIAL_COUNT;
+                const extraIndex = index - INITIAL_COUNT;
+                return (
                   <div 
                     key={project.name} 
-                    className={`card transition-all duration-700 ${
-                      inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    } flex flex-col h-full group relative border-yellow-400/30`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
+                    className={`card flex flex-col h-full group ${
+                      inView && !isExtra ? "opacity-100 translate-y-0" : ""
+                    } ${
+                      isExtra && !animatingIds.has(project.name) ? "opacity-100 translate-y-0" : ""
+                    } ${
+                      inView && !showAll && !isExtra ? "transition-all duration-700" : ""
+                    }`}
+                    style={
+                      isExtra && animatingIds.has(project.name)
+                        ? { animation: `slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`, animationDelay: `${extraIndex * 200}ms`, opacity: 0 }
+                        : !isExtra ? { transitionDelay: `${index * 100}ms` }
+                        : undefined
+                    }
                   >
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400/50 via-yellow-400/20 to-transparent"></div>
-                    <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-yellow-400/50 group-hover:border-yellow-400"></div>
-                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-yellow-400/50 group-hover:border-yellow-400"></div>
-                    <div className="card-header bg-yellow-400/20 text-yellow-400">
+                    <h4 className="font-semibold text-foreground text-lg mb-3">
                       {project.name}
-                      <span className="ml-2 text-base animate-pulse">▌</span>
-                    </div>
+                    </h4>
                     
-                    <div className="aspect-video bg-gradient-to-br from-card-bg via-card-bg to-background border border-white/20 mb-4 flex items-center justify-center overflow-hidden relative">
-                      <div className="absolute inset-0 bg-grid-pattern opacity-10 group-hover:opacity-20 transition-opacity"></div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                      <div className="text-center p-4 z-10">
-                        <div className="text-2xl sm:text-4xl mb-2 group-hover:scale-110 transition-transform">⚙️</div>
-                        <span className="text-yellow-400/60 text-xs sm:text-base">WORK_IN_PROGRESS</span>
-                      </div>
-                    </div>
+                    <VideoPreview videoSrc={project.video} />
                     
-                    <p className="text-base mb-4 flex-grow text-gray-400">{project.description}</p>
+                    <p className="text-foreground/70 text-sm mb-4 flex-grow leading-relaxed">
+                      {project.description}
+                    </p>
                     
-                    <div className="flex flex-wrap gap-1.5 mb-5">
+                    <div className="flex flex-wrap gap-2 mb-5">
                       {project.stack.map(tech => (
-                        <span key={tech} className="relative border border-yellow-400/20 bg-yellow-400/5 px-2 py-0.5 text-xs sm:text-sm lg:text-base text-yellow-400/70 font-mono uppercase tracking-wider hover:bg-yellow-400/20 transition-colors">
+                        <span 
+                          key={tech} 
+                          className="px-2.5 py-1 text-xs font-medium bg-accent/10 text-accent rounded border border-accent/20"
+                        >
                           {tech}
                         </span>
                       ))}
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-2 mt-auto">
-                      <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-center">
-                        <span className="relative z-10 text-yellow-400/70 group-hover:text-yellow-400">CODE</span>
+                    <div className="grid grid-cols-2 gap-3 mt-auto">
+                      <a 
+                        href={project.codeLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-primary text-center text-sm"
+                        aria-label={`Source code of ${project.name}`}
+                      >
+                        View Code
                       </a>
+                      {project.demoLink ? (
+                        <a 
+                          href={project.demoLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-secondary text-center text-sm"
+                          aria-label={`Demo of ${project.name}`}
+                        >
+                          Live Demo
+                        </a>
+                      ) : project.docsLink ? (
+                        <a 
+                          href={project.docsLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-secondary text-center text-sm"
+                          aria-label={`Documentation of ${project.name}`}
+                        >
+                          Docs
+                        </a>
+                      ) : null}
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {completedProjects.length > INITIAL_COUNT && (
+          <div className="flex justify-center pt-8">
+            <button
+              onClick={handleToggleShowAll}
+              className="btn btn-secondary px-8"
+            >
+              {showAll ? "Show Less" : `Show More (${completedProjects.length - INITIAL_COUNT})`}
+            </button>
+          </div>
+        )}
+
+        {inProgressProjects.length > 0 && (
+          <div className="mt-12 space-y-6">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+              <h3 className="text-lg font-semibold text-foreground">
+                In Progress
+              </h3>
+              <span className="text-muted text-sm">({inProgressProjects.length})</span>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {inProgressWithVideo.map((project, index) => (
+                <div 
+                  key={project.name} 
+                  className={`card transition-all duration-700 ${
+                    inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  } flex flex-col h-full group border-yellow-400/30 hover:border-yellow-400/50`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <h4 className="font-semibold text-foreground text-lg">
+                      {project.name}
+                    </h4>
+                    <span className="px-2 py-0.5 text-xs bg-yellow-400/10 text-yellow-400 rounded border border-yellow-400/20">
+                      WIP
+                    </span>
+                  </div>
+                  
+                  <div className="aspect-video bg-gradient-to-br from-card-bg to-background border border-border rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+                    <div className="text-center z-10">
+                      <div className="text-3xl mb-2">{"</>"}</div>
+                      <span className="text-muted text-sm">Work in Progress</span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-foreground/60 text-sm mb-4 flex-grow leading-relaxed">
+                    {project.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.stack.map(tech => (
+                      <span 
+                        key={tech} 
+                        className="px-2.5 py-1 text-xs font-medium bg-yellow-400/10 text-yellow-400/80 rounded border border-yellow-400/20"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-auto">
+                    <a 
+                      href={project.codeLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn btn-secondary w-full text-center text-sm text-yellow-400/70 hover:text-yellow-400 border-yellow-400/30 hover:border-yellow-400"
+                    >
+                      View Code
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

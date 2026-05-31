@@ -1,6 +1,13 @@
 "use client";
 
-type Section = "about" | "projects" | "resume" | "contact";
+type Section = "hero" | "skills" | "projects" | "resume" | "contact";
+
+const NAV_ITEMS: { id: Section; label: string }[] = [
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "resume", label: "Resume" },
+  { id: "contact", label: "Contact" },
+];
 
 export default function Header({
   activeSection,
@@ -9,26 +16,37 @@ export default function Header({
   activeSection: Section;
   scrollToSection: (section: Section) => void;
 }) {
-  const sections: Section[] = ["about", "projects", "resume", "contact"];
-
   return (
-    <header className="fixed top-0 left-0 right-0 border-b border-white/20 bg-background/95 backdrop-blur z-40 px-4 py-3 sm:px-6 sm:py-4">
+    <header className="fixed top-0 left-0 right-0 border-b border-foreground/10 bg-background/80 backdrop-blur-lg z-40 px-4 py-3 sm:px-6 sm:py-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-2 sm:gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-accent text-xl"><span className="glitch">&lt;&gt;</span></span>
-            <h1 className="text-xl font-bold sm:text-2xl text-white">Roman Ivanov</h1>
-            <span className="cursor"></span>
-          </div>
-          <nav className="flex flex-nowrap gap-1 sm:gap-2">
-            {sections.map((section) => (
+        <div className="flex items-center justify-between gap-4">
+          {/* Logo */}
+          <button
+            onClick={() => scrollToSection("hero")}
+            className="flex items-center gap-2 group"
+          >
+            <span className="text-accent text-xl font-bold transition-transform group-hover:scale-110">
+              {"</>"}
+            </span>
+            <span className="text-lg font-semibold text-foreground hidden sm:inline">
+              Roman Ivanov
+            </span>
+          </button>
+
+          {/* Navigation */}
+          <nav className="flex items-center gap-1 sm:gap-2">
+            {NAV_ITEMS.map((item) => (
               <button
-                key={section}
-                onClick={() => scrollToSection(section)}
-                className={`btn-nav ${activeSection === section ? "active" : ""}`}
-                aria-current={activeSection === section ? "page" : undefined}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
+                  activeSection === item.id
+                    ? "bg-accent text-background"
+                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/5"
+                }`}
+                aria-current={activeSection === item.id ? "page" : undefined}
               >
-                [{section.toUpperCase()}]
+                {item.label}
               </button>
             ))}
           </nav>

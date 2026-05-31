@@ -5,27 +5,33 @@ import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AboutSection from "@/components/sections/AboutSection";
+import HeroSection from "@/components/sections/HeroSection";
+import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import ResumeSection from "@/components/sections/ResumeSection";
 import ContactSection from "@/components/sections/ContactSection";
 
-type Section = "about" | "projects" | "resume" | "contact";
+type Section = "hero" | "skills" | "projects" | "resume" | "contact";
 
-const SECTIONS: Section[] = ["about", "projects", "resume", "contact"];
+const SECTIONS: Section[] = ["hero", "skills", "projects", "resume", "contact"];
 
 function isSection(value: string): value is Section {
   return SECTIONS.includes(value as Section);
 }
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<Section>("about");
+  const [activeSection, setActiveSection] = useState<Section>("hero");
 
   // Scroll to section and push hash to history
   const scrollToSection = useCallback((section: Section) => {
     setActiveSection(section);
-    document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.pushState(null, "", `#${section}`);
+    if (section === "hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.pushState(null, "", "/");
+    } else {
+      document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.pushState(null, "", `#${section}`);
+    }
   }, []);
 
   // Handle initial hash and back/forward navigation via hashchange
@@ -34,7 +40,7 @@ export default function Home() {
 
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
-      setActiveSection(isSection(hash) ? hash : "about");
+      setActiveSection(isSection(hash) ? hash : "hero");
     };
 
     // On mount: sync activeSection with initial hash (if any)
@@ -53,13 +59,18 @@ export default function Home() {
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          for (const section of SECTIONS) {
-            const element = document.getElementById(section);
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              if (rect.top <= 150 && rect.bottom > 150) {
-                setActiveSection(section);
-                break;
+          // Check if at top for hero
+          if (window.scrollY < 200) {
+            setActiveSection("hero");
+          } else {
+            for (const section of SECTIONS.slice(1)) {
+              const element = document.getElementById(section);
+              if (element) {
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom > 150) {
+                  setActiveSection(section);
+                  break;
+                }
               }
             }
           }
@@ -85,14 +96,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground font-mono relative">
       <ScrollProgress />
-      <div className="scanline fixed inset-0 pointer-events-none z-50 opacity-30"></div>
 
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
 
-      <div className="h-20"></div>
-
       <main>
-        <AboutSection />
+        <HeroSection />
+        <SkillsSection />
         <ProjectsSection />
         <ResumeSection onDownloadPDF={downloadPDF} />
         <ContactSection />
